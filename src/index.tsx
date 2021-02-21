@@ -3,10 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Auth0Provider
+      domain="siprosoft-shopping-app.eu.auth0.com"
+      clientId="Ix7AHCF2UgJMM9wV6LEq544keMvHhtro"
+      redirectUri={`${window.location.origin}/callback`}
+    >
+      <App />
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
