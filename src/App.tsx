@@ -1,6 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import React from 'react';
 import './App.css';
+import Pantry from './components/pantry';
 
 function App() {
   const { isAuthenticated, logout, isLoading, user } = useAuth0()
@@ -10,6 +11,8 @@ function App() {
   if (isAuthenticated) {
     return (
       <div>
+        <Pantry />
+
         <div>Logged in as: {user.email}</div>
         <div><button onClick={() => logout()}>Log out</button></div>
       </div>
