@@ -1,31 +1,34 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
+import { useAuth0 } from '@auth0/auth0-react';
+import React from 'react';
 import './App.css';
 
 function App() {
-  return (<div>
-    <Pantry></Pantry>
-  </div>);
+  const { isAuthenticated, logout, isLoading, user } = useAuth0()
+  
+  if (isLoading) return <p>Loading</p>
+
+  if (isAuthenticated) {
+    return (
+      <div>
+        <div>Logged in as: {user.email}</div>
+        <div><button onClick={() => logout()}>Log out</button></div>
+      </div>
+      )
+  }
+
+  return (
+    <div className="App">
+      <LoginButton />
+    </div>
+  );
 }
 
-function Pantry() {
-  const [items, setItems] = useState<string[]>([])
-  const [newItem, setNewItem] = useState('')
-  return <div>
-    <form onSubmit={(e) => {
-      e.preventDefault()
 
-      if (newItem === '') return null
-      
-      setItems([...items, newItem])
-      setNewItem('')
-    }}>
-      <input type="text" value={newItem} onChange={e => {setNewItem(e.target.value)}}></input>
-      <button type="submit">Save</button>
-    </form>
-    <ul>
-      {items.map(item => (<li>{item}</li>))}
-    </ul>
-  </div>
-}
+const LoginButton = () => {
+  const { loginWithRedirect } = useAuth0();
+
+  return <button onClick={() => loginWithRedirect()}>Log In</button>;
+};
+
+
 export default App;
